@@ -1,12 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
-export class Client {
-  constructor(
-    private readonly id: number,
-    private readonly cpf: string,
-    private readonly name: string,
-  ) {}
-}
+import { Client } from './entities/client.entity';
 
 @Injectable()
 export class ClientsService {

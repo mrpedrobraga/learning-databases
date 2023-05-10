@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import { Client, ClientsService } from './clients.service';
+import { Client } from './entities/client.entity';
+import { ClientsService } from './clients.service';
 
 @Controller('clients')
 export class ClientsController {
