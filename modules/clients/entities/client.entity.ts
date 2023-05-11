@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { PaymentSheet } from 'modules/payment_sheets/entities/payment_sheet.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('clients')
 export class Client {
@@ -15,6 +22,7 @@ export class Client {
   @Column()
   name: string;
 
-  @Column()
-  payment_sheet_id: number;
+  @ManyToOne(() => PaymentSheet, (paymentSheet) => paymentSheet.clients)
+  @JoinColumn({ name: 'payment_sheet_id' })
+  payment_sheet: PaymentSheet;
 }

@@ -14,7 +14,18 @@ export class ClientsService {
   ) {}
 
   async getClients() {
-    return await this.clientsRepository.find();
+    return await this.clientsRepository.find({
+      relations: {
+        payment_sheet: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        payment_sheet: {
+          name: true,
+        },
+      },
+    });
   }
 
   async getClientCount() {
@@ -30,16 +41,16 @@ export class ClientsService {
     client_id: number,
     payment_sheet_id: number,
   ) {
-    const paymentSheetCount: number = await this.paymentSheetRepository.count({
-      where: { id: payment_sheet_id },
-      skip: 0,
-      take: 1,
-    });
+    const paymentSheet: PaymentSheet =
+      await this.paymentSheetRepository.findOne({
+        where: { id: payment_sheet_id },
+      });
 
-    if (!paymentSheetCount) throw new HttpException('Dude, this payment sheet does not exist.', 404);
+    if (!paymentSheet)
+      throw new HttpException('Dude, this payment sheet does not exist.', 404);
 
     this.clientsRepository.update(client_id, {
-      payment_sheet_id: payment_sheet_id,
+      payment_sheet: paymentSheet,
     });
   }
 }

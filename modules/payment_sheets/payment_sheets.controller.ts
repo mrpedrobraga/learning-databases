@@ -10,13 +10,14 @@ import {
 import { PaymentSheetsService } from './payment_sheets.service';
 import { PaymentSheet } from './entities/payment_sheet.entity';
 import { CreatePaymentSheetDTO } from './dto/create_payment_sheet.dto';
+import { PaymentSheetInfoDTO } from './dto/payment_sheet_info.dto';
 
 @Controller('payment_sheets')
 export class PaymentSheetsController {
   constructor(private readonly paymentSheetsService: PaymentSheetsService) {}
 
   @Get()
-  async getAllSheets(): Promise<Array<PaymentSheet>> {
+  async getAllSheets(): Promise<Array<PaymentSheetInfoDTO>> {
     return await this.paymentSheetsService.getSheets();
   }
 

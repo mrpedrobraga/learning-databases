@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Client } from 'modules/clients/entities/client.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum PaymentStatus {
   PAID = 'PAID',
@@ -9,17 +10,20 @@ export enum PaymentStatus {
 @Entity('payment_sheets')
 export class PaymentSheet {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column()
-  name: string
+  name: string;
 
   @Column()
-  due_date: string
+  due_date: string;
 
   @Column()
-  amount: number
+  amount: number;
 
   @Column()
-  status: PaymentStatus
+  status: PaymentStatus;
+
+  @OneToMany(() => Client, (client) => client.payment_sheet)
+  clients: Array<Client>;
 }
