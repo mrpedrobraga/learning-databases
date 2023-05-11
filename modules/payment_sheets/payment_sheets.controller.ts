@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpException, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { PaymentSheetsService } from './payment_sheets.service';
 import { PaymentSheet } from './entities/payment_sheet.entity';
 import { CreatePaymentSheetDTO } from './dto/create_payment_sheet.dto';
@@ -13,11 +21,16 @@ export class PaymentSheetsController {
   }
 
   @Post()
-  addPaymentSheet(@Body() createPaymentSheetDTO: CreatePaymentSheetDTO) {
+  async addPaymentSheet(@Body() createPaymentSheetDTO: CreatePaymentSheetDTO) {
     if (createPaymentSheetDTO.name) {
       this.paymentSheetsService.addSheet(createPaymentSheetDTO);
       return createPaymentSheetDTO;
     }
     throw new HttpException('Dude, set a name for your payment sheet.', 400);
+  }
+
+  @Delete()
+  async deletePaymentSheet(@Query('id') id: number) {
+    return await this.paymentSheetsService.deleteSheet(id);
   }
 }
