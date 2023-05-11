@@ -1,4 +1,11 @@
-import { Body, Controller, Get, HttpException, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { Client } from './entities/client.entity';
 import { ClientsService } from './clients.service';
 import { CreateClientDTO } from './dto/create_client.dto';
@@ -24,5 +31,16 @@ export class ClientsController {
       return createClientDTO;
     }
     throw new HttpException('Dude, set a name for your client.', 400);
+  }
+
+  @Post('assign_payment_sheet')
+  async assignPaymentSheetToClient(
+    @Query('client_id') client_id: number,
+    @Query('payment_sheet_id') payment_sheet_id: number,
+  ) {
+    return await this.clientsService.assignPaymentSheetToClient(
+      client_id,
+      payment_sheet_id,
+    );
   }
 }

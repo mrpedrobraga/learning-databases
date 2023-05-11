@@ -15,6 +15,6 @@ export class Client {
   @Column()
   name: string;
 
-  // @Column()
-  // payment_sheet_id: number
+  @Column()
+  payment_sheet_id: number;
 }
