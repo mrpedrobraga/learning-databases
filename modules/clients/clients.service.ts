@@ -36,14 +36,7 @@ export class ClientsService {
       take: 1,
     });
 
-    const result = await this.paymentSheetRepository.find({
-      where: {
-        id: 4,
-      },
-    });
-    console.log(result);
-
-    if (!paymentSheetCount) throw new HttpException(result.toString(), 404);
+    if (!paymentSheetCount) throw new HttpException('Dude, this payment sheet does not exist.', 404);
 
     this.clientsRepository.update(client_id, {
       payment_sheet_id: payment_sheet_id,
