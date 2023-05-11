@@ -1,20 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { Client } from './entities/client.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ClientsService {
-  clients: Array<Client> = [];
+  constructor(
+    @InjectRepository(Client)
+    private clientsRepository: Repository<Client>,
+  ) {}
 
-  constructor() {
-    this.clients.push(new Client(1, '000.000.000-00', 'Danilo', 0));
-    this.clients.push(new Client(66, '000.000.000-01', 'Mazur', 1));
+  async getClients() {
+    return await this.clientsRepository.find();
   }
 
-  getClients(): Array<Client> {
-    return this.clients;
+  async getClientCount() {
+    return await this.clientsRepository.count();
   }
 
-  getClientCount(): number {
-    return this.clients.length;
+  async addClient(body: object) {
+    const entity = this.clientsRepository.create(body);
+    this.clientsRepository.save(entity);
   }
 }

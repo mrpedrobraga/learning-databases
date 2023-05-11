@@ -1,14 +1,25 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
 export enum PaymentStatus {
   PAID = 'PAID',
   SCHEDULED = 'SCHEDULED',
   FAILED = 'FAILED',
 }
 
+@Entity('payment_sheets')
 export class PaymentSheet {
-  constructor(
-    private readonly name: string,
-    private readonly due_date: string,
-    private readonly amount: number,
-    private readonly status: PaymentStatus,
-  ) {}
+  @PrimaryGeneratedColumn()
+  id: number
+
+  @Column()
+  name: string
+
+  @Column()
+  due_date: string
+
+  @Column()
+  amount: number
+
+  @Column()
+  status: PaymentStatus
 }

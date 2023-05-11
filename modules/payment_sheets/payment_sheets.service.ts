@@ -1,22 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PaymentSheet, PaymentStatus } from './entities/payment_sheet.entity';
+import { CreatePaymentSheetDTO } from './dto/create_payment_sheet.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PaymentSheetsService {
-  sheets: Array<PaymentSheet> = [];
+  constructor(
+    @InjectRepository(PaymentSheet)
+    private paymentSheetRepository,
+  ) {}
 
-  constructor() {
-    this.sheets.push(
-      new PaymentSheet(
-        'Folha 001',
-        '2023-12-01',
-        30000,
-        PaymentStatus.SCHEDULED,
-      ),
-    );
+  async getSheets() {
+    return this.paymentSheetRepository.find();
   }
 
-  getSheets(): Array<PaymentSheet> {
-    return this.sheets;
+  async addSheet(createPaymentSheetDTO: CreatePaymentSheetDTO) {
+    const newPaymentSheet = this.paymentSheetRepository.create(
+      createPaymentSheetDTO,
+    );
+    this.paymentSheetRepository.save(newPaymentSheet);
   }
 }

@@ -1,23 +1,20 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('clients')
 export class Client {
-  constructor(id, cpf, name, payment_sheet_id) {
-    this.id = id,
-    this.cpf = cpf,
-    this.name = name,
-    this.payment_sheet_id = payment_sheet_id
+  constructor(params: Partial<Client>) {
+    Object.assign(this, params);
   }
 
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
+
+  @Column('varchar')
+  cpf: string;
 
   @Column()
-  cpf: string
+  name: string;
 
-  @Column()
-  name: string
-
-  @Column()
-  payment_sheet_id: number
+  // @Column()
+  // payment_sheet_id: number
 }
